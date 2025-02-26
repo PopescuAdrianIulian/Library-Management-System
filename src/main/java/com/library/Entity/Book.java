@@ -3,11 +3,13 @@ package com.library.Entity;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.library.Util.Availability;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.antlr.v4.runtime.misc.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,10 +24,12 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-
+    @NotBlank(message = "Name cannot be empty")
+    @Size(min = 2, max = 50, message = "Name must be between 2 and 30 characters")
     private String title;
 
-
+    @NotBlank(message = "Author cannot be empty")
+    @Size(min = 2, max = 30, message = "Author must be between 2 and 30 characters")
     private String author;
 
     @Enumerated(EnumType.STRING)
@@ -35,4 +39,5 @@ public class Book {
     @OneToMany(mappedBy = "book")
     @JsonManagedReference
     private List<Loan> loans = new ArrayList<>();
+
 }

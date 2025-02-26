@@ -2,6 +2,8 @@ package com.library.Entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,9 +23,12 @@ public class Loan {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @NotBlank(message = "Name cannot be empty")
+    @Size(min = 2, max = 30, message = "Name must be between 2 and 30 characters")
     private String name;
 
     @Column(name = "borrow_date")
+
     private LocalDate borrowDate;
 
     @Column(name = "return_date")
@@ -36,4 +41,6 @@ public class Loan {
     @JoinColumn(name = "book_id")
     @JsonBackReference
     private Book book;
+
+
 }

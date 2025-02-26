@@ -23,7 +23,7 @@ public class LoanService {
     public Loan borrowBook(int id, String name) {
         Book tempBook = bookRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Book not found"));
-        tempBook.setAvailability(Availability.Unavailable);
+        tempBook.setAvailability(Availability.UNAVAILABLE);
 
         Loan loan = new Loan();
         loan.setBook(tempBook);
@@ -45,7 +45,7 @@ public class LoanService {
             throw new IllegalStateException("Loan already returned");
         }
 
-        tempBook.setAvailability(Availability.Available);
+        tempBook.setAvailability(Availability.AVAILABLE);
         tempLoan.setReturned(true);
         loanRepository.save(tempLoan);
         bookRepository.save(tempBook);

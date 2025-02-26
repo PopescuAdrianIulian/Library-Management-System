@@ -17,7 +17,7 @@ public class BookService {
 
     @Transactional
     public Book addBook(Book book) {
-        book.setAvailability(Availability.Available);
+        book.setAvailability(Availability.AVAILABLE);
         bookRepository.save(book);
         return book;
     }

@@ -3,6 +3,7 @@ package com.library.Controller;
 import com.library.Entity.Book;
 import com.library.Service.BookService;
 import com.library.Service.LoanService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +19,7 @@ public class AdminController {
     private final BookService bookService;
 
     @PostMapping("/add")
-    public ResponseEntity<Book> addBooks(@RequestBody Book book) {
+    public ResponseEntity<Book> addBooks(@Valid @RequestBody Book book) {
         logger.info("Adding a new book: {}", book.getTitle());
         Book savedBook = bookService.addBook(book);
         logger.debug("Book added successfully: {}", savedBook);
@@ -26,7 +27,7 @@ public class AdminController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Book> updateBook(@PathVariable int id, @RequestBody Book book) {
+    public ResponseEntity<Book> updateBook(@PathVariable int id, @Valid @RequestBody Book book) {
         logger.info("Updating book with ID: {}", id);
         Book updatedBook = bookService.updateBook(id, book);
         logger.debug("Book updated successfully: {}", updatedBook);
@@ -48,4 +49,5 @@ public class AdminController {
         logger.info("Loan deleted successfully: {}", id);
         return ResponseEntity.ok("Deleted successfully!");
     }
+
 }

@@ -5,6 +5,7 @@ import com.library.Entity.Loan;
 import com.library.Service.BookService;
 import com.library.Service.LoanService;
 import com.library.Util.Availability;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,14 +47,14 @@ public class UserController {
     }
 
     @PostMapping("/borrow/{bookId}/{name}")
-    public ResponseEntity<Loan> borrowBook(@PathVariable int bookId, @PathVariable String name) {
+    public ResponseEntity<Loan> borrowBook(@Valid @PathVariable int bookId, @PathVariable String name) {
         logger.info("Borrowing book with ID: {} by user: {}", bookId, name);
         Book book = bookService.getBookById(bookId).orElseThrow(() -> {
             logger.error("Book not found with ID: {}", bookId);
             return new IllegalArgumentException("Book not found");
         });
 
-        if (book.getAvailability() == Availability.Unavailable) {
+        if (book.getAvailability() == Availability.UNAVAILABLE) {
             logger.warn("Book with ID: {} is unavailable", bookId);
             return ResponseEntity.badRequest().body(null);
         }
